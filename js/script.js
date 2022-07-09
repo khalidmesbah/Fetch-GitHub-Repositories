@@ -95,19 +95,19 @@ const getRepos = () => {
                         </div>
                     </div>
                 <div class="stats">
-                    <div id="forks">
+                    <div>
                         <p>${forks_count}</p>
                         <span>forks</span>
                     </div>
-                    <div id="stars">
+                    <div>
                         <p>${stargazers_count}</p>
                         <span>stars</span>
                     </div>
-                    <div class="watchers">
+                    <div>
                         <p>${watchers_count}</p>
                         <span>watchers</span>
                     </div>
-                    <div class="issues">
+                    <div>
                         <p>${open_issues_count}</p>
                         <span>issues</span>
                     </div>
