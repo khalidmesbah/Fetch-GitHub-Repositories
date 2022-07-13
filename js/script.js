@@ -5,8 +5,12 @@ const reposEl = document.getElementById(`show-repos`);
 const UserInfoEl = document.getElementById(`user-info`);
 /* functions */
 const getUsers = async (url) => {
-    const followers = await fetch(url).then(res => res.json()).then(followers => followers.map(follower => follower.login));
-    return followers;
+    try {
+        const result = await fetch(url).then(res => res.json()).then(res => res.map(res => `<li>${res.login}</li>`));
+        return result.join("");
+    } catch (error) {
+        console.error(error);
+    }
 };
 const getRepos = () => {
     if (inputEl.value) {
@@ -15,8 +19,6 @@ const getRepos = () => {
             const { login, name, avatar_url: avatar, type, html_url: account, following: following_count, following_url, followers: followers_count, followers_url, public_gists, public_repos, bio } = info;
             let followers = await getUsers(followers_url);
             let following = await getUsers(following_url.slice(0, -13));
-            following = following.reduce((a, c) => a += `<li>${c}</li>`, '');
-            followers = followers.reduce((a, c) => a += `<li>${c}</li>`, '');
 
             const user = document.createElement(`div`);
             user.classList.add(`user`);
@@ -84,7 +86,7 @@ const getRepos = () => {
                     <div class="topics">
                         <p class="section-title">topics</p>
                         <ul>
-                            ${topics.map(topic => `<li>${topic}</li>`)}
+                            ${topics.map(topic => `<li>${topic}</li>`).join("|")}
                         </ul>
                     </div>
                         <div class="language">
@@ -117,7 +119,7 @@ const getRepos = () => {
             }).then(() => VanillaTilt.init(document.querySelectorAll(".card"))).catch(err => console.error(err));
     } else {
         reposEl.innerHTML = `Please Type A Username!`;
-        UserInfoEl.innerHTML = `No Data To Show`
+        UserInfoEl.innerHTML = `No Data To Show`;
     }
 };
 /* event listeners */

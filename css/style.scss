@@ -253,3 +253,7 @@ body {
 .js-tilt-glare {
   border-radius: $radius;
 }
+
+details{
+  overflow-y: scroll;
+}
