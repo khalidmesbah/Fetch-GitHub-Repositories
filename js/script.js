@@ -14,8 +14,10 @@ const getUsers = async (url) => {
 };
 const getUserData = async (userInfoUrl, userReposUrl) => {
     try {
-        const response = await Promise.all([fetch(userInfoUrl), fetch(userReposUrl)]).then(response => response.map(data => data.json()));
-        const userData = await Promise.all(response);
+        const result = await Promise
+            .all([fetch(userInfoUrl), fetch(userReposUrl)])
+            .then(responses => responses.map(response => response.json()));
+        const userData = await Promise.all(result);
         return [...userData];
     } catch (error) {
         console.error(error);
