@@ -6,21 +6,17 @@ const userInfoContainer = document.getElementById(`user-info`);
 /* functions */
 const getUsers = async (url) => {
     try {
-        const result = await fetch(url).then(res => res.json()).then(res => res.map(res => `<li>${res.login}</li>`));
-        return result.join("");
+        const users = await fetch(url).then(res => res.json()).then(res => res.map(res => `<li>${res.login}</li>`));
+        return users.join("");
     } catch (error) {
         console.error(error);
     }
 };
 const getUserData = async (userInfoUrl, userReposUrl) => {
     try {
-        const userInfoResponse = await fetch(userInfoUrl);
-        const userInfo = await userInfoResponse.json();
-
-        const userReposResponse = await fetch(userReposUrl);
-        const userRepos = await userReposResponse.json();
-
-        return { userInfo, userRepos };
+        const response = await Promise.all([fetch(userInfoUrl), fetch(userReposUrl)]).then(response => response.map(data => data.json()));
+        const userData = await Promise.all(response);
+        return [...userData];
     } catch (error) {
         console.error(error);
     }
@@ -128,22 +124,11 @@ const showUserRepos = (repos) => {
 };
 const showUserData = async (inputValue) => {
     if (inputValue) {
-        /* using async/await */
-        const { userInfo, userRepos } = await getUserData(`https://api.github.com/users/${inputValue}`, `https://api.github.com/users/${inputValue}/repos`);
+        const userInfoUrl = `https://api.github.com/users/${inputValue}`;
+        const userReposUrl = `${userInfoUrl}/repos`;
+        const [userInfo, userRepos] = await getUserData(userInfoUrl, userReposUrl);
         showUserInfo(userInfo);
         showUserRepos(userRepos);
-        /* using promise all */
-        // Promise.all([
-        //     fetch(`https://api.github.com/users/${inputValue}`), // fetch user info
-        //     fetch(`https://api.github.com/users/${inputValue}/repos`) // fetch user repos
-        // ])
-        //     .then(data => Promise.all(data.map(d => d.json())))
-        //     .then(data => {
-        //         const [userInfo, userRepos] = data;
-        //         showUserInfo(userInfo);
-        //         showUserRepos(userRepos);
-        //     })
-        //     .catch(console.error);
     } else {
         reposContainer.innerHTML = `Please Type A Correct Username!`;
         userInfoContainer.innerHTML = `No Repositories To Show`;
