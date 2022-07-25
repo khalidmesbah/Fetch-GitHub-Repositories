@@ -52,7 +52,11 @@ body {
   &::before {
     position: absolute;
     content: "";
-    inset: 0;
+    // inset: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
     background: linear-gradient(to right, #035397, #5089c6);
     filter: blur(20px);
     z-index: -1;
@@ -107,16 +111,20 @@ body {
   position: relative;
   transform-style: preserve-3d;
   transform: perspective(1000px);
-  min-width: 300px;
-  max-width: 600px;
+  width: 300px;
   background: #1d1d1d;
   border-radius: $radius;
   box-shadow: 5px 5px 15px #000d;
+  -webkit-user-select: none;
   user-select: none;
   &::before {
     position: absolute;
     content: "";
-    inset: -4px;
+    // inset: -4px;
+    top: -4px;
+    left: -4px;
+    bottom: -4px;
+    right: -4px;
     background: linear-gradient(
         45deg,
         #ff0000 0%,
@@ -133,7 +141,7 @@ body {
       0 0 /300% 100%;
     filter: blur(15px);
     border-radius: $radius;
-    transform: translatez(-1px);
+    transform: translateZ(-1px);
     animation: animate-bg 2s linear infinite;
   }
   &.card-theme-1 {
@@ -233,12 +241,12 @@ body {
   p {
     font-size: 22px;
     font-weight: 500;
-    transform: translatez(20px);
+    transform: translateZ(20px);
   }
   span {
     text-transform: uppercase;
     font-size: 0.6em;
-    transform: translatez(20px);
+    transform: translateZ(20px);
   }
   & > * {
     flex-basis: 100%;
@@ -254,6 +262,6 @@ body {
   border-radius: $radius;
 }
 
-details{
+details {
   overflow-y: scroll;
 }
