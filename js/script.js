@@ -22,9 +22,8 @@ const getUserData = async (userInfoUrl, userReposUrl) => {
         console.error(error);
     }
 };
-const showUserInfo = async (userInfo) => {
+const showUserInfo = async ({ login, name, avatar_url: avatar, type, html_url: account, following: following_count, following_url, followers: followers_count, followers_url, public_gists, public_repos, bio }) => {
     userInfoContainer.innerHTML = ``;
-    const { login, name, avatar_url: avatar, type, html_url: account, following: following_count, following_url, followers: followers_count, followers_url, public_gists, public_repos, bio } = userInfo;
     let followers = await getUsers(followers_url);
     let following = await getUsers(following_url.slice(0, -13));
     const user = document.createElement(`div`);
